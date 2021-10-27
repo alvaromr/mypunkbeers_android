@@ -9,6 +9,6 @@ class BeersRemoteDataSource @Inject constructor(
 
 ) {
     fun searchByName(name: String): List<Beer> {
-        return Array(5) { Beer(it) }.toList()
+        return Array(5) { Beer(it, name) }.toList()
     }
 }

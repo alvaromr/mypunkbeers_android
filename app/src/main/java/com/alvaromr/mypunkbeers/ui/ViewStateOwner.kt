@@ -24,8 +24,11 @@ class ViewStateHolder<S>(
 
     override val currentState: DataState<S> get() = state
 
-    fun setState(block: (DataState<S>.() -> DataState<S>)) {
-        state = state.block()
+    fun updateState(loading: Boolean = false, block: S.() -> S = { state.viewState }) {
+        state = state.copy(
+            viewState = state.viewState.block(),
+            loading = loading
+        )
     }
 
     operator fun getValue(thisRef: ViewStateOwner<S>, property: KProperty<*>) = currentState

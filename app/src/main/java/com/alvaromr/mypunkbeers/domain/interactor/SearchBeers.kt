@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
+const val SEARCH_DELAY = 500L
+
 @Singleton
 class SearchBeers @Inject constructor(
     private val beerRepository: BeerRepository,
@@ -18,8 +20,9 @@ class SearchBeers @Inject constructor(
         name: String,
         block: suspend (value: Resource<out List<Beer>>) -> Unit,
     ) = flow {
+        delay(SEARCH_DELAY)
         emit(Resource.Loading)
-        delay(1000) //TODO: delete when loading is implemented
+        delay(1000) //TODO: delete when repository is implemented
         beerRepository.searchByName(name).catch {
             emit(Resource.Error(type = "search error"))
         }.collect {

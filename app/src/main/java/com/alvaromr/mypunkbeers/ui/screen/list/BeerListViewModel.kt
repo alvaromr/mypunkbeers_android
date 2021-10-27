@@ -3,12 +3,14 @@ package com.alvaromr.mypunkbeers.ui.screen.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alvaromr.mypunkbeers.domain.interactor.SearchBeers
-import com.alvaromr.mypunkbeers.domain.model.Beer
 import com.alvaromr.mypunkbeers.domain.model.DataState
 import com.alvaromr.mypunkbeers.domain.model.Resource
 import com.alvaromr.mypunkbeers.ui.ViewStateHolder
 import com.alvaromr.mypunkbeers.ui.ViewStateOwner
+import com.alvaromr.mypunkbeers.ui.screen.list.BeerListContract.Event
+import com.alvaromr.mypunkbeers.ui.screen.list.BeerListContract.State
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,32 +18,51 @@ import javax.inject.Inject
 @HiltViewModel
 class BeerListViewModel @Inject constructor(
     private val searchBeers: SearchBeers
-) : ViewModel(), ViewStateOwner<List<Beer>> {
-    private val viewStateHolder: ViewStateHolder<List<Beer>> = ViewStateHolder(listOf())
+) : ViewModel(), ViewStateOwner<State> {
+    private val viewStateHolder: ViewStateHolder<State> = ViewStateHolder(State())
 
-    override val currentState: DataState<List<Beer>> by viewStateHolder
+    override val currentState: DataState<State> by viewStateHolder
+
+    private var currentSearch: Job? = null
 
     init {
-        viewModelScope.launch {
-            searchBeers("foo") {
-                when (it) {
-                    is Resource.Loading -> {
-                        viewStateHolder.setState {
-                            copy(loading = true)
+        searchBeers()
+    }
+
+    private fun searchBeers() {
+        currentSearch?.cancel()
+        currentSearch = viewModelScope.launch {
+            val query = currentState.viewState.query
+            if (query.isNotBlank()) {
+                searchBeers(query) {
+                    when (it) {
+                        is Resource.Loading -> {
+                            viewStateHolder.updateState(loading = true)
                         }
-                    }
-                    is Resource.Success -> {
-                        viewStateHolder.setState {
-                            copy(viewState = it.data, loading = false)
+                        is Resource.Success -> {
+                            viewStateHolder.updateState {
+                                copy(beers = it.data)
+                            }
                         }
-                    }
-                    is Resource.Error -> {
-                        viewStateHolder.setState {
-                            copy(loading = false)
+                        is Resource.Error -> {
+                            viewStateHolder.updateState()
                         }
                     }
                 }
+            } else {
+                viewStateHolder.updateState {
+                    copy(beers = listOf())
+                }
             }
+        }
+    }
+
+    fun triggerEvent(event: Event) = when (event) {
+        is Event.QueryChanged -> {
+            viewStateHolder.updateState {
+                copy(query = event.query)
+            }
+            searchBeers()
         }
     }
 }

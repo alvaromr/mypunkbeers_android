@@ -11,4 +11,6 @@ class BeersLocalDataSource @Inject constructor(
     fun save(list: List<Beer>) {
 
     }
+
+    fun getById(id: Int): Beer? = Beer(id, "foo", "bar")
 }

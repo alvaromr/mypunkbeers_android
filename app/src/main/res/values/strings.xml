@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">MyPunkBeers</string>
+    <string name="search">Buscar</string>
+    <string name="back">atrás</string>
+    <string name="generic_error">Ha ocurrido un error...</string>
 </resources>

@@ -3,16 +3,10 @@ package com.alvaromr.mypunkbeers.ui
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.alvaromr.mypunkbeers.domain.model.DataState
-import kotlin.reflect.KProperty
 
-interface ViewStateOwner<S> {
-    val currentState: DataState<S>
-}
-
-class ViewStateHolder<S>(
+class StateHolder<S>(
     initialState: S
-) : ViewStateOwner<S> {
-
+) : StateOwner<S> {
     private val _state: MutableState<DataState<S>> =
         mutableStateOf(DataState(viewState = initialState))
 
@@ -24,12 +18,10 @@ class ViewStateHolder<S>(
 
     override val currentState: DataState<S> get() = state
 
-    fun updateState(loading: Boolean = false, block: S.() -> S = { state.viewState }) {
+    override fun updateState(loading: Boolean, block: S.() -> S) {
         state = state.copy(
             viewState = state.viewState.block(),
             loading = loading
         )
     }
-
-    operator fun getValue(thisRef: ViewStateOwner<S>, property: KProperty<*>) = currentState
 }

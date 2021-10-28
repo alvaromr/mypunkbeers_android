@@ -9,6 +9,12 @@ class BeerListContract {
     )
 
     sealed class Event {
-        class QueryChanged(val query: String): Event()
+        class QueryChanged(val query: String) : Event()
+        class BeerClicked(val beer: Beer) : Event()
+    }
+
+    sealed class Effect {
+        class NavigateToBeerDetail(val id: Int) : Effect()
+        object ErrorToast : Effect()
     }
 }

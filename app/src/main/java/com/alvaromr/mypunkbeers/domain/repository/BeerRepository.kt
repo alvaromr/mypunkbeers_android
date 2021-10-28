@@ -18,4 +18,8 @@ class BeerRepository @Inject constructor(
         beersLocalDataSource.save(list)
         emit(list)
     }
+
+    suspend fun getById(id: Int): Flow<Beer?> = flow {
+        emit(beersLocalDataSource.getById(id))
+    }
 }

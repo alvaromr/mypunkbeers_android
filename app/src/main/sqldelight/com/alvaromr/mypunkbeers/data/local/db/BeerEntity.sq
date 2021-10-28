@@ -1,0 +1,20 @@
+CREATE TABLE beer_Entity (
+  id INTEGER NOT NULL PRIMARY KEY,
+  name TEXT NOT NULL,
+  subtitle TEXT NOT NULL,
+  description TEXT NOT NULL,
+  imageUrl TEXT NOT NULL
+);
+
+findById:
+SELECT * FROM beer_Entity
+WHERE id = :id;
+
+insertOne:
+INSERT OR REPLACE INTO beer_Entity(
+    id,
+    name,
+    subtitle,
+    description,
+    imageUrl
+) VALUES (?, ?, ?, ?, ?);

@@ -4,4 +4,5 @@
     <string name="back">back</string>
     <string name="generic_error">Something went wrong…</string>
     <string name="nothing_searched_yet">Search beers by name</string>
+    <string name="no_beers_with_name">No beers named \"%s\"</string>
 </resources>

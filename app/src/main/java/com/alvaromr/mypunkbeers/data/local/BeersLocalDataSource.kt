@@ -8,10 +8,11 @@ import javax.inject.Singleton
 class BeersLocalDataSource @Inject constructor(
 
 ){
-    fun save(list: List<Beer>) {
+    private val cache = mutableSetOf<Beer>()
 
+    fun save(list: List<Beer>) {
+        cache.addAll(list)
     }
 
-    fun getById(id: Int): Beer? =
-        Beer(id, "foo", "bar", "baz", "https://images.punkapi.com/v2/192.png")
+    fun getById(id: Int): Beer? = cache.find { it.id == id }
 }

@@ -20,9 +20,8 @@ class SearchBeers @Inject constructor(
         name: String,
         block: suspend (value: Resource<out List<Beer>>) -> Unit,
     ) = flow {
-        delay(SEARCH_DELAY)
         emit(Resource.Loading)
-        delay(1000) //TODO: delete when repository is implemented
+        delay(SEARCH_DELAY)
         beerRepository.searchByName(name).catch {
             emit(Resource.Error(type = "search error"))
         }.collect {

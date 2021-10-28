@@ -3,7 +3,6 @@ package com.alvaromr.mypunkbeers
 import android.app.Application
 import coil.ImageLoader
 import coil.ImageLoaderFactory
-import com.alvaromr.mypunkbeers.ui.DebugTools
 import dagger.hilt.android.HiltAndroidApp
 import okhttp3.OkHttpClient
 import javax.inject.Inject

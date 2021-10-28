@@ -114,6 +114,8 @@ object BeerListScreen : Screen {
         val viewModel: BeerListViewModel = hiltViewModel()
 
         val beers = viewModel.currentState.viewState.beers
+        val query = viewModel.currentState.viewState.query
+        val loading = viewModel.currentState.loading
         if (beers.isEmpty()) {
             Box(
                 modifier = Modifier
@@ -121,7 +123,13 @@ object BeerListScreen : Screen {
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = stringResource(id = R.string.nothing_searched_yet))
+                Text(
+                    text = if (query.isBlank() || loading) {
+                        stringResource(id = R.string.nothing_searched_yet)
+                    } else {
+                        stringResource(id = R.string.no_beers_with_name, query)
+                    }
+                )
             }
         } else {
             BeerList(

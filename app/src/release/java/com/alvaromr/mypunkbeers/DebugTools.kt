@@ -1,4 +1,4 @@
-package com.alvaromr.marvel
+package com.alvaromr.mypunkbeers
 
 import okhttp3.Interceptor
 import javax.inject.Inject

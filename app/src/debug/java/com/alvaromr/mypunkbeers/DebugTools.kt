@@ -1,6 +1,5 @@
-package com.alvaromr.mypunkbeers.ui
+package com.alvaromr.mypunkbeers
 
-import com.alvaromr.mypunkbeers.App
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin

@@ -13,8 +13,8 @@ class BeerRepository @Inject constructor(
     private val beersRemoteDataSource: BeersRemoteDataSource,
     private val beersLocalDataSource: BeersLocalDataSource,
 ) {
-    suspend fun searchByName(name: String): Flow<List<Beer>> = flow {
-        val list = beersRemoteDataSource.searchByName(name)
+    suspend fun searchByName(name: String, offset: Int): Flow<List<Beer>> = flow {
+        val list = beersRemoteDataSource.searchByName(name, offset)
         beersLocalDataSource.save(list)
         emit(list)
     }

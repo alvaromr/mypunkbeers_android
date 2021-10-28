@@ -134,17 +134,31 @@ object BeerListScreen : Screen {
         } else {
             BeerList(
                 beers = beers,
-                onBeerClick = { viewModel.triggerEvent(BeerListContract.Event.BeerClicked(it)) }
+                onBeerClick = { viewModel.triggerEvent(BeerListContract.Event.BeerClicked(it)) },
+                onListEndReached = {
+                    viewModel.triggerEvent(
+                        BeerListContract.Event.ListScrolledToEndPosition(
+                            it
+                        )
+                    )
+                }
             )
         }
     }
 
     @Composable
-    private fun BeerList(beers: List<Beer>, onBeerClick: (Beer) -> Unit) {
+    private fun BeerList(
+        beers: List<Beer>,
+        onBeerClick: (Beer) -> Unit,
+        onListEndReached: (Int) -> Unit
+    ) {
         LazyColumn(
             modifier = Modifier.fillMaxWidth()
         ) {
             itemsIndexed(beers) { i, item ->
+                if (i >= beers.lastIndex) {
+                    onListEndReached(i)
+                }
                 BeerRow(item, onBeerClick)
             }
         }

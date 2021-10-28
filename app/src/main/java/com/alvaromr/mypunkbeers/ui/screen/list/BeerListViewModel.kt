@@ -23,19 +23,34 @@ class BeerListViewModel @Inject constructor(
     EffectChannelOwner<Effect> by EffectChannelHolder() {
     private var currentSearch: Job? = null
 
+    fun triggerEvent(event: Event) = when (event) {
+        is Event.QueryChanged -> {
+            updateState {
+                copy(query = event.query, beers = listOf(), maxScroll = 1)
+            }
+            searchBeers()
+        }
+        is Event.BeerClicked -> {
+            sendEffect(Effect.NavigateToBeerDetail(event.beer.id))
+        }
+        is Event.ListScrolledToEndPosition -> {
+            onListScrollerToEndPosition(event.position)
+        }
+    }
+
     private fun searchBeers() {
         currentSearch?.cancel()
         currentSearch = viewModelScope.launch {
             val query = currentState.viewState.query
             if (query.isNotBlank()) {
-                searchBeers(query) {
+                searchBeers(query, currentState.viewState.maxScroll) {
                     when (it) {
                         is Resource.Loading -> {
                             updateState(loading = true)
                         }
                         is Resource.Success -> {
                             updateState {
-                                copy(beers = it.data)
+                                copy(beers = beers.toMutableList().apply { addAll(it.data) })
                             }
                         }
                         is Resource.Error -> {
@@ -52,15 +67,16 @@ class BeerListViewModel @Inject constructor(
         }
     }
 
-    fun triggerEvent(event: Event) = when (event) {
-        is Event.QueryChanged -> {
+    private fun onListScrollerToEndPosition(position: Int) {
+        val dataState = currentState
+        if (!dataState.loading && position >= dataState.viewState.beers.lastIndex &&
+            position >= dataState.viewState.maxScroll
+        ) {
+            val maxScroll = position + 1
             updateState {
-                copy(query = event.query)
+                copy(maxScroll = maxScroll)
             }
             searchBeers()
-        }
-        is Event.BeerClicked -> {
-            sendEffect(Effect.NavigateToBeerDetail(event.beer.id))
         }
     }
 }

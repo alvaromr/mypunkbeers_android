@@ -20,7 +20,10 @@ class HttpClientBuilder @Inject constructor(
             }
         }
         install(JsonFeature) {
-            serializer = KotlinxSerializer(KotlinJson { ignoreUnknownKeys = true })
+            serializer = KotlinxSerializer(KotlinJson {
+                ignoreUnknownKeys = true
+                coerceInputValues = true
+            })
         }
     }
 }

@@ -18,11 +18,12 @@ class SearchBeers @Inject constructor(
 ) {
     suspend operator fun invoke(
         name: String,
+        offset: Int,
         block: suspend (value: Resource<out List<Beer>>) -> Unit,
     ) = flow {
         emit(Resource.Loading)
         delay(SEARCH_DELAY)
-        beerRepository.searchByName(name).catch {
+        beerRepository.searchByName(name, offset).catch {
             emit(Resource.Error(type = "search error"))
         }.collect {
             emit(Resource.Success(it))

@@ -4,4 +4,6 @@ data class Beer (
     val id: Int,
     val name: String,
     val subtitle: String,
+    val description: String,
+    val imageUrl: String
 )

@@ -7,11 +7,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -62,6 +65,11 @@ object BeerListScreen : Screen {
         onValueChange: (String) -> Unit,
         contentColor: Color
     ) {
+        val localFocusManager = LocalFocusManager.current
+        if (value.isEmpty()) {
+            localFocusManager.clearFocus()
+        }
+
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -79,12 +87,22 @@ object BeerListScreen : Screen {
                     contentDescription = null
                 )
             },
+            trailingIcon = {
+                Icon(
+                    modifier = Modifier.clickable {
+                        onValueChange("")
+                    },
+                    imageVector = Icons.Filled.Clear,
+                    contentDescription = null
+                )
+            },
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
                 placeholderColor = contentColor,
                 textColor = contentColor,
                 focusedLabelColor = contentColor,
                 leadingIconColor = contentColor,
+                trailingIconColor = contentColor,
                 unfocusedLabelColor = contentColor,
                 unfocusedIndicatorColor = contentColor
             )
@@ -95,10 +113,22 @@ object BeerListScreen : Screen {
     override fun Content() {
         val viewModel: BeerListViewModel = hiltViewModel()
 
-        BeerList(
-            beers = viewModel.currentState.viewState.beers,
-            onBeerClick = { viewModel.triggerEvent(BeerListContract.Event.BeerClicked(it)) }
-        )
+        val beers = viewModel.currentState.viewState.beers
+        if (beers.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = stringResource(id = R.string.nothing_searched_yet))
+            }
+        } else {
+            BeerList(
+                beers = beers,
+                onBeerClick = { viewModel.triggerEvent(BeerListContract.Event.BeerClicked(it)) }
+            )
+        }
     }
 
     @Composable

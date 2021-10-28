@@ -12,5 +12,6 @@ class BeersLocalDataSource @Inject constructor(
 
     }
 
-    fun getById(id: Int): Beer? = Beer(id, "foo", "bar")
+    fun getById(id: Int): Beer? =
+        Beer(id, "foo", "bar", "baz", "https://images.punkapi.com/v2/192.png")
 }

@@ -1,6 +1,6 @@
 package com.alvaromr.mypunkbeers.domain.interactor
 
-import com.alvaromr.mypunkbeers.domain.model.Beer
+import com.alvaromr.mypunkbeers.domain.model.BeerList
 import com.alvaromr.mypunkbeers.domain.model.Resource
 import com.alvaromr.mypunkbeers.domain.repository.BeerRepository
 import kotlinx.coroutines.delay
@@ -19,7 +19,7 @@ class SearchBeers @Inject constructor(
     suspend operator fun invoke(
         name: String,
         offset: Int,
-        block: suspend (value: Resource<out List<Beer>>) -> Unit,
+        block: suspend (value: Resource<out BeerList>) -> Unit,
     ) = flow {
         emit(Resource.Loading)
         delay(SEARCH_DELAY)

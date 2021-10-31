@@ -50,7 +50,10 @@ class BeerListViewModel @Inject constructor(
                         }
                         is Resource.Success -> {
                             updateState {
-                                copy(beers = beers.toMutableList().apply { addAll(it.data) })
+                                copy(
+                                    beers = beers.toMutableList().apply { addAll(it.data.beers) },
+                                    endReached = it.data.endReached
+                                )
                             }
                         }
                         is Resource.Error -> {
@@ -70,7 +73,7 @@ class BeerListViewModel @Inject constructor(
     private fun onListScrollerToEndPosition(position: Int) {
         val dataState = currentState
         if (!dataState.loading && position >= dataState.viewState.beers.lastIndex &&
-            position >= dataState.viewState.maxScroll
+            position >= dataState.viewState.maxScroll && !dataState.viewState.endReached
         ) {
             val maxScroll = position + 1
             updateState {

@@ -7,6 +7,7 @@ class BeerListContract {
         val beers: List<Beer> = listOf(),
         val query: String = "",
         val maxScroll: Int = 1,
+        val endReached: Boolean = false,
     )
 
     sealed class Event {

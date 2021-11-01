@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.alvaromr.mypunkbeers.ui.components.SystemUiToolbar
 import com.alvaromr.mypunkbeers.ui.theme.MyPunkBeersTheme
 import org.koin.androidx.compose.viewModel
 
@@ -37,6 +38,7 @@ fun Router(directions: List<NavDirection>) {
                 screen.Effects(navigator = navigator)
                 screen.Args(it.arguments)
                 MyPunkBeersTheme {
+                    SystemUiToolbar()
                     Scaffold(
                         topBar = {
                             screen.TopBar()

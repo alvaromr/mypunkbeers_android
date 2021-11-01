@@ -1,5 +1,6 @@
 package com.alvaromr.mypunkbeers.ui.screen.detail
 
+import android.os.Bundle
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.alvaromr.mypunkbeers.R
 import com.alvaromr.mypunkbeers.ui.components.BeerImage
 import com.alvaromr.mypunkbeers.ui.components.CollectEffects
@@ -21,16 +21,17 @@ import com.alvaromr.mypunkbeers.ui.navigation.Navigator
 import com.alvaromr.mypunkbeers.ui.screen.Screen
 import com.alvaromr.mypunkbeers.ui.screen.detail.BeerDetailContract.Effect
 import com.alvaromr.mypunkbeers.ui.screen.detail.BeerDetailContract.Event
+import org.koin.androidx.compose.viewModel
 
 object BeerDetailScreen : Screen {
     @Composable
     override fun TopBar() {
-        val viewModel: BeerDetailViewModel = hiltViewModel()
+        val vm by viewModel<BeerDetailViewModel>()
 
         val contentColor = MaterialTheme.colors.onPrimary
 
-        val state = viewModel.viewState
-        val triggerEvent = viewModel::triggerEvent
+        val state = vm.viewState
+        val triggerEvent = vm::triggerEvent
 
         Surface(
             modifier = Modifier.fillMaxWidth(),
@@ -58,8 +59,10 @@ object BeerDetailScreen : Screen {
 
     @Composable
     override fun Content() {
-        val viewModel: BeerDetailViewModel = hiltViewModel()
-        val beer = viewModel.viewState.data.beer
+        val vm by viewModel<BeerDetailViewModel>()
+
+        val beer = vm.viewState.data.beer
+
         if (beer != null) {
             Column(
                 modifier = Modifier
@@ -99,11 +102,11 @@ object BeerDetailScreen : Screen {
 
     @Composable
     override fun Effects(navigator: Navigator) {
-        val viewModel: BeerDetailViewModel = hiltViewModel()
+        val vm by viewModel<BeerDetailViewModel>()
 
         val context = LocalContext.current
 
-        CollectEffects(effects = viewModel.effects, action = { effect ->
+        CollectEffects(effects = vm.effects, action = { effect ->
             when (effect) {
                 is Effect.NavigateBack -> {
                     navigator.navigate(NavigationCommand.Back)
@@ -113,5 +116,14 @@ object BeerDetailScreen : Screen {
                 }
             }
         })
+    }
+
+    @Composable
+    override fun Args(arguments: Bundle?) {
+        val beerId: String? = arguments?.get(BeerDetailScreenDirection.KEY_ID) as String?
+
+        val vm by viewModel<BeerDetailViewModel>()
+
+        vm.triggerEvent(Event.BeerIdSet(beerId?.toInt() ?: -1))
     }
 }

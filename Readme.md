@@ -11,11 +11,11 @@ It uses [Punk's API](https://punkapi.com/documentation/v2) to fetch and display 
 + Coroutines & Flow
 + MVI Clean Architecture
 + Single Activity
-+ Hilt
-+ Ktor
++ Koin
 + Jetpack Compose
 + Jetpack Navigation
 + Coil
++ Ktor
 + SqlDelight
 + Flipper
 

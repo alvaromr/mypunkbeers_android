@@ -1,5 +1,6 @@
 package com.alvaromr.mypunkbeers.ui.screen.list
 
+import android.os.Bundle
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,24 +18,24 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.alvaromr.mypunkbeers.R
 import com.alvaromr.mypunkbeers.domain.model.Beer
 import com.alvaromr.mypunkbeers.ui.components.CollectEffects
 import com.alvaromr.mypunkbeers.ui.navigation.Navigator
 import com.alvaromr.mypunkbeers.ui.screen.Screen
 import com.alvaromr.mypunkbeers.ui.screen.detail.BeerDetailScreenDirection
+import org.koin.androidx.compose.viewModel
 
 object BeerListScreen : Screen {
 
     @Composable
     override fun TopBar() {
-        val viewModel: BeerListViewModel = hiltViewModel()
+        val vm by viewModel<BeerListViewModel>()
 
         val contentColor = MaterialTheme.colors.onPrimary
 
-        val state = viewModel.viewState
-        val triggerEvent = viewModel::triggerEvent
+        val state = vm.viewState
+        val triggerEvent = vm::triggerEvent
 
         Surface(
             modifier = Modifier.fillMaxWidth(),
@@ -111,11 +112,11 @@ object BeerListScreen : Screen {
 
     @Composable
     override fun Content() {
-        val viewModel: BeerListViewModel = hiltViewModel()
+        val vm by viewModel<BeerListViewModel>()
 
-        val beers = viewModel.viewState.data.beers
-        val query = viewModel.viewState.data.query
-        val loading = viewModel.viewState.loading
+        val beers = vm.viewState.data.beers
+        val query = vm.viewState.data.query
+        val loading = vm.viewState.loading
         if (beers.isEmpty()) {
             Box(
                 modifier = Modifier
@@ -134,9 +135,9 @@ object BeerListScreen : Screen {
         } else {
             BeerList(
                 beers = beers,
-                onBeerClick = { viewModel.triggerEvent(BeerListContract.Event.BeerClicked(it)) },
+                onBeerClick = { vm.triggerEvent(BeerListContract.Event.BeerClicked(it)) },
                 onListEndReached = {
-                    viewModel.triggerEvent(BeerListContract.Event.ListScrolledToEndPosition(it))
+                    vm.triggerEvent(BeerListContract.Event.ListScrolledToEndPosition(it))
                 }
             )
         }
@@ -195,11 +196,11 @@ object BeerListScreen : Screen {
 
     @Composable
     override fun Effects(navigator: Navigator) {
-        val viewModel: BeerListViewModel = hiltViewModel()
+        val vm by viewModel<BeerListViewModel>()
 
         val context = LocalContext.current
 
-        CollectEffects(effects = viewModel.effects, action = { effect ->
+        CollectEffects(effects = vm.effects, action = { effect ->
             when (effect) {
                 is BeerListContract.Effect.NavigateToBeerDetail -> {
                     navigator.navigate(BeerDetailScreenDirection.destination(effect.id))
@@ -210,5 +211,10 @@ object BeerListScreen : Screen {
                 }
             }
         })
+    }
+
+    @Composable
+    override fun Args(arguments: Bundle?) {
+
     }
 }

@@ -1,6 +1,6 @@
 package com.alvaromr.mypunkbeers.ui.navigation
 
-import androidx.navigation.compose.NamedNavArgument
+import androidx.navigation.NamedNavArgument
 
 sealed interface NavigationCommand {
     object None : NavigationCommand

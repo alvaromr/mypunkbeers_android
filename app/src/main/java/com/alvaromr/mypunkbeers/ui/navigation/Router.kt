@@ -3,18 +3,18 @@ package com.alvaromr.mypunkbeers.ui.navigation
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.alvaromr.mypunkbeers.ui.theme.MyPunkBeersTheme
+import org.koin.androidx.compose.viewModel
 
 @Composable
 fun Router(directions: List<NavDirection>) {
 
     val navController = rememberNavController()
 
-    val navigator: Navigator = hiltViewModel()
+    val navigator by viewModel<Navigator>()
 
     navigator.commands.collectAsState().value.also { command ->
         when (command) {
@@ -35,6 +35,7 @@ fun Router(directions: List<NavDirection>) {
             composable(direction.routeConfig) {
                 val screen = direction.screen
                 screen.Effects(navigator = navigator)
+                screen.Args(it.arguments)
                 MyPunkBeersTheme {
                     Scaffold(
                         topBar = {

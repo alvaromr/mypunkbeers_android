@@ -8,6 +8,7 @@ class BeerDetailContract {
     )
 
     sealed class Event {
+        class BeerIdSet(val id: Int) : Event()
         object Back : Event()
     }
 

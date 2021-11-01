@@ -3,17 +3,24 @@ package com.alvaromr.mypunkbeers
 import android.app.Application
 import coil.ImageLoader
 import coil.ImageLoaderFactory
-import dagger.hilt.android.HiltAndroidApp
 import okhttp3.OkHttpClient
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.GlobalContext.startKoin
 
-@HiltAndroidApp
 class App : Application(), ImageLoaderFactory {
-    @Inject
-    lateinit var debugTools: DebugTools
+    private val debugTools: DebugTools by inject()
 
     override fun onCreate() {
         super.onCreate()
+
+        startKoin {
+            androidLogger()
+            androidContext(this@App)
+            modules(diModules)
+        }
+
         debugTools.init(this)
     }
 

@@ -9,13 +9,10 @@ import com.alvaromr.mypunkbeers.ui.EffectChannelOwner
 import com.alvaromr.mypunkbeers.ui.StateHolder
 import com.alvaromr.mypunkbeers.ui.StateOwner
 import com.alvaromr.mypunkbeers.ui.screen.list.BeerListContract.*
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class BeerListViewModel @Inject constructor(
+class BeerListViewModel(
     private val searchBeers: SearchBeers,
 ) : ViewModel(),
     StateOwner<State> by StateHolder(State()),

@@ -1,12 +1,11 @@
 buildscript {
     ext {
-        composeVersion = '1.0.4'
-        hiltVersion = '2.38.1'
         kotlinVersion = '1.5.31'
+        composeVersion = '1.0.4'
+        koinVersion = '3.1.3'
         gradleVersion = '7.0.3'
         flipperVersion = '0.114.0'
         ktorVersion = '1.6.0'
-        roomVersion = '2.3.0'
     }
     repositories {
         google()
@@ -15,7 +14,6 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradleVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
         classpath 'com.squareup.sqldelight:gradle-plugin:1.5.2'
     }
 }

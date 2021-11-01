@@ -1,7 +1,7 @@
 package com.alvaromr.mypunkbeers.ui.screen.detail
 
 import androidx.navigation.NavType
-import androidx.navigation.compose.navArgument
+import androidx.navigation.navArgument
 import com.alvaromr.mypunkbeers.ui.navigation.NavDirection
 import com.alvaromr.mypunkbeers.ui.navigation.NavigationCommand
 import com.alvaromr.mypunkbeers.ui.screen.Screen

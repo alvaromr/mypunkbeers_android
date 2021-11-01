@@ -1,6 +1,5 @@
 package com.alvaromr.mypunkbeers.ui.screen.detail
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alvaromr.mypunkbeers.domain.interactor.GetBeerById
@@ -10,21 +9,17 @@ import com.alvaromr.mypunkbeers.ui.EffectChannelOwner
 import com.alvaromr.mypunkbeers.ui.StateHolder
 import com.alvaromr.mypunkbeers.ui.StateOwner
 import com.alvaromr.mypunkbeers.ui.screen.detail.BeerDetailContract.*
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class BeerDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+class BeerDetailViewModel(
     private val getBeerById: GetBeerById,
 ) : ViewModel(),
     StateOwner<State> by StateHolder(State()),
     EffectChannelOwner<Effect> by EffectChannelHolder() {
 
-    val id: Int = savedStateHandle.get<String>(BeerDetailScreenDirection.KEY_ID)?.toInt() ?: -1
+    private fun getBeerById(id: Int) {
+        if (id < 0) return
 
-    init {
         viewModelScope.launch {
             getBeerById(id) {
                 when (it) {
@@ -49,5 +44,6 @@ class BeerDetailViewModel @Inject constructor(
         is Event.Back -> {
             sendEffect(Effect.NavigateBack)
         }
+        is Event.BeerIdSet -> getBeerById(event.id)
     }
 }

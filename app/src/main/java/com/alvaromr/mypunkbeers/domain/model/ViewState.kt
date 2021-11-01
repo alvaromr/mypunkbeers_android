@@ -1,6 +1,6 @@
 package com.alvaromr.mypunkbeers.domain.model
 
-data class DataState<T>(
+data class ViewState<T>(
     val loading: Boolean = false,
-    val viewState: T,
+    val data: T,
 )

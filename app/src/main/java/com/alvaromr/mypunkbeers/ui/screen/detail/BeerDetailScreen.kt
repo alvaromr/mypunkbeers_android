@@ -29,7 +29,7 @@ object BeerDetailScreen : Screen {
 
         val contentColor = MaterialTheme.colors.onPrimary
 
-        val state = viewModel.currentState
+        val state = viewModel.viewState
         val triggerEvent = viewModel::triggerEvent
 
         Surface(
@@ -59,7 +59,7 @@ object BeerDetailScreen : Screen {
     @Composable
     override fun Content() {
         val viewModel: BeerDetailViewModel = hiltViewModel()
-        val beer = viewModel.currentState.viewState.beer
+        val beer = viewModel.viewState.data.beer
         if (beer != null) {
             Column(
                 modifier = Modifier

@@ -1,25 +1,22 @@
 package com.alvaromr.mypunkbeers.data.remote.api
 
 import io.ktor.client.request.*
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class BeerApiClient @Inject constructor(
+class BeerApiClient(
     private val httpClientBuilder: HttpClientBuilder,
 ) {
-    private val baseUrl: String = "https://api.punkapi.com/v2/"
 
-    suspend fun get(
-        endpoint: String,
-        queryParams: Map<String, String>,
-    ): List<BeerApiDto> {
+    suspend fun get(endpoint: String, queryParams: Map<String, String>): List<BeerApiDto> {
         val client = httpClientBuilder.httpClient()
-        val response: List<BeerApiDto> = client.get("$baseUrl$endpoint") {
+        val response: List<BeerApiDto> = client.get("$BASE_URL$endpoint") {
             queryParams.forEach { (key, value) ->
                 parameter(key, value)
             }
         }
         return response
+    }
+
+    companion object {
+        const val BASE_URL = "https://api.punkapi.com/v2/"
     }
 }

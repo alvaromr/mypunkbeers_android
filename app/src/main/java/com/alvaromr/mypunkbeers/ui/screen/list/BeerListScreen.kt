@@ -33,7 +33,7 @@ object BeerListScreen : Screen {
 
         val contentColor = MaterialTheme.colors.onPrimary
 
-        val state = viewModel.currentState
+        val state = viewModel.viewState
         val triggerEvent = viewModel::triggerEvent
 
         Surface(
@@ -43,7 +43,7 @@ object BeerListScreen : Screen {
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 BeerSearchTextField(
-                    value = state.viewState.query,
+                    value = state.data.query,
                     onValueChange = {
                         triggerEvent(BeerListContract.Event.QueryChanged(it))
                     },
@@ -63,7 +63,7 @@ object BeerListScreen : Screen {
     private fun BeerSearchTextField(
         value: String,
         onValueChange: (String) -> Unit,
-        contentColor: Color
+        contentColor: Color,
     ) {
         val localFocusManager = LocalFocusManager.current
         if (value.isEmpty()) {
@@ -113,9 +113,9 @@ object BeerListScreen : Screen {
     override fun Content() {
         val viewModel: BeerListViewModel = hiltViewModel()
 
-        val beers = viewModel.currentState.viewState.beers
-        val query = viewModel.currentState.viewState.query
-        val loading = viewModel.currentState.loading
+        val beers = viewModel.viewState.data.beers
+        val query = viewModel.viewState.data.query
+        val loading = viewModel.viewState.loading
         if (beers.isEmpty()) {
             Box(
                 modifier = Modifier
@@ -136,11 +136,7 @@ object BeerListScreen : Screen {
                 beers = beers,
                 onBeerClick = { viewModel.triggerEvent(BeerListContract.Event.BeerClicked(it)) },
                 onListEndReached = {
-                    viewModel.triggerEvent(
-                        BeerListContract.Event.ListScrolledToEndPosition(
-                            it
-                        )
-                    )
+                    viewModel.triggerEvent(BeerListContract.Event.ListScrolledToEndPosition(it))
                 }
             )
         }
@@ -150,7 +146,7 @@ object BeerListScreen : Screen {
     private fun BeerList(
         beers: List<Beer>,
         onBeerClick: (Beer) -> Unit,
-        onListEndReached: (Int) -> Unit
+        onListEndReached: (Int) -> Unit,
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxWidth()

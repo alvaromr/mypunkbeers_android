@@ -7,13 +7,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
-import javax.inject.Singleton
 
-const val SEARCH_DELAY = 500L
-
-@Singleton
-class SearchBeers @Inject constructor(
+class SearchBeers(
     private val beerRepository: BeerRepository,
 ) {
     suspend operator fun invoke(
@@ -29,4 +24,8 @@ class SearchBeers @Inject constructor(
             emit(Resource.Success(it))
         }
     }.collect(block)
+
+    companion object {
+        const val SEARCH_DELAY = 500L
+    }
 }

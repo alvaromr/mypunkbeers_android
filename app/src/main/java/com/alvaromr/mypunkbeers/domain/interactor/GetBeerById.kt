@@ -6,11 +6,8 @@ import com.alvaromr.mypunkbeers.domain.repository.BeerRepository
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class GetBeerById @Inject constructor(
+class GetBeerById(
     private val beerRepository: BeerRepository,
 ) {
     suspend operator fun invoke(

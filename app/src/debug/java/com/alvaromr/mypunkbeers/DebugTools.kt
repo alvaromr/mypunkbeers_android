@@ -9,11 +9,8 @@ import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.facebook.soloader.SoLoader
 import okhttp3.Interceptor
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class DebugTools @Inject constructor() {
+class DebugTools {
     var httpInterceptor: Interceptor? = null
 
     fun init(app: App) = with(app) {

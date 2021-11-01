@@ -16,6 +16,6 @@ It uses [Punk's API](https://punkapi.com/documentation/v2) to fetch and display 
 + Jetpack Compose
 + Jetpack Navigation
 + Coil
-+ SqDelight
++ SqlDelight
 + Flipper
 

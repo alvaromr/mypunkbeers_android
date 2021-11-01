@@ -1,9 +1,9 @@
 package com.alvaromr.mypunkbeers.domain.model
 
-data class Beer (
+data class Beer(
     val id: Int,
     val name: String,
     val subtitle: String,
     val description: String,
-    val imageUrl: String
+    val imageUrl: String,
 )

@@ -7,7 +7,7 @@ import com.alvaromr.mypunkbeers.ui.navigation.NavigationCommand
 import com.alvaromr.mypunkbeers.ui.screen.Screen
 
 object BeerDetailScreenDirection : NavDirection {
-    private const val KEY_ID = "id"
+    const val KEY_ID = "id"
 
     override val routeConfig = buildRoute("{$KEY_ID}")
 

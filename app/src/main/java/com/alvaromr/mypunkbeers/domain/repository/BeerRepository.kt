@@ -5,11 +5,8 @@ import com.alvaromr.mypunkbeers.data.remote.BeersRemoteDataSource
 import com.alvaromr.mypunkbeers.domain.model.Beer
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class BeerRepository @Inject constructor(
+class BeerRepository(
     private val beersRemoteDataSource: BeersRemoteDataSource,
     private val beersLocalDataSource: BeersLocalDataSource,
 ) {

@@ -17,12 +17,12 @@ import javax.inject.Inject
 @HiltViewModel
 class BeerDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getBeerById: GetBeerById
+    private val getBeerById: GetBeerById,
 ) : ViewModel(),
     StateOwner<State> by StateHolder(State()),
     EffectChannelOwner<Effect> by EffectChannelHolder() {
 
-    val id: Int = savedStateHandle.get<String>("id")?.toInt() ?: -1
+    val id: Int = savedStateHandle.get<String>(BeerDetailScreenDirection.KEY_ID)?.toInt() ?: -1
 
     init {
         viewModelScope.launch {

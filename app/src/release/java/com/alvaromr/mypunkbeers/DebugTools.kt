@@ -1,14 +1,10 @@
 package com.alvaromr.mypunkbeers
 
 import okhttp3.Interceptor
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class DebugTools @Inject constructor() {
+class DebugTools {
     var httpInterceptor: Interceptor? = null
 
     fun init(app: Context) {
     }
-
 }

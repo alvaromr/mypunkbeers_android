@@ -14,10 +14,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class BeerListViewModel @Inject constructor(
-    private val searchBeers: SearchBeers
+    private val searchBeers: SearchBeers,
 ) : ViewModel(),
     StateOwner<State> by StateHolder(State()),
     EffectChannelOwner<Effect> by EffectChannelHolder() {
@@ -41,9 +40,9 @@ class BeerListViewModel @Inject constructor(
     private fun searchBeers() {
         currentSearch?.cancel()
         currentSearch = viewModelScope.launch {
-            val query = currentState.viewState.query
+            val query = viewState.data.query
             if (query.isNotBlank()) {
-                searchBeers(query, currentState.viewState.maxScroll) {
+                searchBeers(query, viewState.data.maxScroll) {
                     when (it) {
                         is Resource.Loading -> {
                             updateState(loading = true)
@@ -71,9 +70,9 @@ class BeerListViewModel @Inject constructor(
     }
 
     private fun onListScrollerToEndPosition(position: Int) {
-        val dataState = currentState
-        if (!dataState.loading && position >= dataState.viewState.beers.lastIndex &&
-            position >= dataState.viewState.maxScroll && !dataState.viewState.endReached
+        val dataState = viewState
+        if (!dataState.loading && position >= dataState.data.beers.lastIndex &&
+            position >= dataState.data.maxScroll && !dataState.data.endReached
         ) {
             val maxScroll = position + 1
             updateState {

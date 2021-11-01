@@ -5,12 +5,9 @@ import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.serialization.json.Json as KotlinJson
 
-@Singleton
-class HttpClientBuilder @Inject constructor(
+class HttpClientBuilder(
     private val debugTools: DebugTools,
 ) {
     fun httpClient() = HttpClient(OkHttp) {

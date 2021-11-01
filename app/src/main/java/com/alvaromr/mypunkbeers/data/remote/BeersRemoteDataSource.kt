@@ -26,6 +26,7 @@ class BeersRemoteDataSource(
             name = name,
             subtitle = tagline,
             description = description,
+            alcoholByVolume = abv,
             imageUrl = image_url
         )
     }

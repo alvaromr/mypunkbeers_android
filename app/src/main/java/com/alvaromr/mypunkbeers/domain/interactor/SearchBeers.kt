@@ -1,5 +1,6 @@
 package com.alvaromr.mypunkbeers.domain.interactor
 
+import com.alvaromr.mypunkbeers.Logger
 import com.alvaromr.mypunkbeers.domain.model.BeerList
 import com.alvaromr.mypunkbeers.domain.model.Resource
 import com.alvaromr.mypunkbeers.domain.repository.BeerRepository
@@ -19,8 +20,10 @@ class SearchBeers(
         emit(Resource.Loading)
         delay(SEARCH_DELAY)
         beerRepository.searchByName(name, offset).catch {
+            Logger.e(it)
             emit(Resource.Error(type = "search error"))
         }.collect {
+            Logger.i(it.beers.toString())
             emit(Resource.Success(it))
         }
     }.collect(block)

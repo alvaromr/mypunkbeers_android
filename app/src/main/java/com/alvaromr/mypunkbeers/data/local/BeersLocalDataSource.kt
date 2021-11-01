@@ -19,6 +19,7 @@ class BeersLocalDataSource(
         name = name,
         subtitle = subtitle,
         description = description,
+        alcoholByVolume = alcoholByVolume,
         imageUrl = imageUrl,
     )
 
@@ -28,6 +29,7 @@ class BeersLocalDataSource(
             name = name,
             subtitle = subtitle,
             description = description,
+            alcoholByVolume = alcoholByVolume,
             imageUrl = imageUrl,
         )
     }

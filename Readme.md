@@ -6,7 +6,7 @@ This is a simple project to play a bit with some new concepts on Android.
 
 It uses [Punk's API](https://punkapi.com/documentation/v2) to fetch and display beers.
 
-## Main Features
+## Main Features and Dependencies
 
 + Coroutines & Flow
 + MVI Clean Architecture
@@ -18,4 +18,5 @@ It uses [Punk's API](https://punkapi.com/documentation/v2) to fetch and display 
 + Ktor
 + SqlDelight
 + Flipper
++ Timber
 

@@ -3,6 +3,7 @@ CREATE TABLE beer_Entity (
   name TEXT NOT NULL,
   subtitle TEXT NOT NULL,
   description TEXT NOT NULL,
+  alcoholByVolume REAL NOT NULL,
   imageUrl TEXT NOT NULL
 );
 
@@ -16,5 +17,6 @@ INSERT OR REPLACE INTO beer_Entity(
     name,
     subtitle,
     description,
+    alcoholByVolume,
     imageUrl
-) VALUES (?, ?, ?, ?, ?);
+) VALUES (?, ?, ?, ?,?, ?);

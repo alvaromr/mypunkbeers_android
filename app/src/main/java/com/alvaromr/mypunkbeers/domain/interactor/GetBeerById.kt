@@ -1,5 +1,6 @@
 package com.alvaromr.mypunkbeers.domain.interactor
 
+import com.alvaromr.mypunkbeers.Logger
 import com.alvaromr.mypunkbeers.domain.model.Beer
 import com.alvaromr.mypunkbeers.domain.model.Resource
 import com.alvaromr.mypunkbeers.domain.repository.BeerRepository
@@ -16,8 +17,10 @@ class GetBeerById(
     ) = flow {
         emit(Resource.Loading)
         beerRepository.getById(id).catch {
+            Logger.e(it)
             emit(Resource.Error(type = "not found error"))
         }.collect {
+            Logger.i(it.toString())
             emit(Resource.Success(it))
         }
     }.collect(block)

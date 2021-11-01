@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -84,6 +85,12 @@ object BeerDetailScreen : Screen {
                         .padding(5.dp)
                 )
                 Text(
+                    text = "${beer.alcoholByVolume}%",
+                    style = MaterialTheme.typography.overline,
+                    modifier = Modifier
+                        .padding(5.dp)
+                )
+                Text(
                     text = beer.description,
                     style = MaterialTheme.typography.body1,
                     modifier = Modifier
@@ -124,6 +131,9 @@ object BeerDetailScreen : Screen {
 
         val vm by viewModel<BeerDetailViewModel>()
 
-        vm.triggerEvent(Event.BeerIdSet(beerId?.toInt() ?: -1))
+        val id = beerId?.toInt() ?: -1
+        LaunchedEffect(id) {
+            vm.triggerEvent(Event.BeerIdSet(id))
+        }
     }
 }

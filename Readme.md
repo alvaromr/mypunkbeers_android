@@ -21,4 +21,5 @@ It uses [Punk's API](https://punkapi.com/documentation/v2) to fetch and display 
 + SqlDelight
 + Flipper
 + Timber
++ Mockito
 
